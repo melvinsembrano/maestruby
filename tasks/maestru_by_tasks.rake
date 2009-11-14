@@ -29,6 +29,7 @@ namespace :maestro do
     task :offline do
       t = Maestro::Tasks.new(config_file)
       plugins_offline_task(t)
+      puts "DONE..."
     end
   end
 
@@ -37,10 +38,10 @@ end
 def plugins_install_task(t, force = false)
   t.plugins.each do |p|
     puts "installing #{p.artifact_id} plugin to application..."
-    if force || !File.Directory?(p.app_plugin_folder)
+    if force || !File.directory?(p.app_plugin_folder)
       FileUtils.rm_rf(p.app_plugin_folder) if File.exist?(p.app_plugin_folder)
-      unless File.Directory?(p.extract_folder)
-        Dir.chdir(local_folder)
+      unless File.directory?(p.extract_folder)
+        Dir.chdir(p.local_folder)
         res = `gem unpack #{p.filename}`
         abort_if_system_error(res)
         Dir.chdir(RAILS_ROOT)
