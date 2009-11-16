@@ -1,0 +1,18 @@
+settings:
+  repositories:
+  - name: Default Repository
+    url : http://melvins-u2:8080/archiva
+    username: username
+    password: password
+
+  downloader:
+    name: wget
+    command: default
+
+#plugins:
+#- group_id : group_id_sample
+#  artifact_id: artifact_id_sample
+#  version: 1.0.0
+#  type: gem
+#  repo_type: release
+ 
