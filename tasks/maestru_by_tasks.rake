@@ -5,6 +5,7 @@ require 'maestru_by'
 namespace :maestro do
   MHOME = File.expand_path("~/.maestruby/")
   force = ENV['force'] || ENV['f'] || false
+
   desc "Setup Maestro Ruby environment"
   task :setup do
     repo_path = File.join(MHOME, "repositories")
@@ -12,6 +13,7 @@ namespace :maestro do
     puts "Initializing Maestro Ruby environment..."
     FileUtils.mkdir_p(MHOME) unless File.exist?(MHOME)    
     FileUtils.mkdir_p(repo_path) unless File.exist?(repo_path)
+    FileUtils.cp(File.join(File.dirname(__FILE__),"../lib/templates/maestru_by.yml"), File.join(RAILS_ROOT,"config/maestru_by.yml")) unless File.exist?(File.join(RAILS_ROOT,"config/maestru_by.yml"))
     puts "DONE.."
   end
 

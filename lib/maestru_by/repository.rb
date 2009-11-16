@@ -14,7 +14,7 @@ module Maestro
     end
 
     def download_url(plugin)
-      "#{@url}#{"/" unless @url.ends_with?("/")}repositories/#{plugin.group_id}/#{plugin.artifact_id}/#{plugin.filename}"
+      "#{@url}#{"/" unless @url.ends_with?("/")}repository/#{plugin.repo_type.pluralize}/#{plugin.group_id}/#{plugin.artifact_id}/#{plugin.version}/#{plugin.artifact_id}-#{plugin.version}.#{plugin.type}"
     end
   end
 
