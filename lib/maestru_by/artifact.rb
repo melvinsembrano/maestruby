@@ -8,11 +8,12 @@ module Maestro
 
     def initialize(data = nil)
       if data
-        @group_id = data["group_id"]
-        @artifact_id = data["artifact_id"]
-        @version = data["version"]
-        @type = data["type"]
-        @repo_type = data["repo_type"]
+        a = data.symbolize_keys
+        @group_id = a[:group_id]
+        @artifact_id = a[:artifact_id]
+        @version = a[:version]
+        @type = a[:type]
+        @repo_type = a[:repo_type]
       end
     end
 
