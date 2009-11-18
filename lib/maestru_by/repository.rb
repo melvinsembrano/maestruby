@@ -1,5 +1,7 @@
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
+require 'rubygems'
+require 'activesupport'
 require 'net/http'
 require 'uri'
 

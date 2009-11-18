@@ -29,7 +29,7 @@ namespace :maestro do
       repo = task.repositories.first
       puts repo.get_metadata(artifact)
       else
-        puts "rake den:plugin:install group_id=maestro artifact_id=sample_plugin"
+        puts "rake syntax: den:plugin:install group_id=maestro artifact_id=sample_plugin"
       end
     end
   end
