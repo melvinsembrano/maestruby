@@ -29,15 +29,6 @@ namespace :maestro do
         plugin_offline_task(task, artifact)
         plugin_install_task(artifact)
         puts "DONE"
-=begin
-        repo = task.repositories.first
-        url = repo.download_url(artifact)
-        if url
-          puts url
-        else
-          puts "Cannot find the artifact to any of the repositories, please check group_id or artifact_id"
-        end
-=end
       else
         puts "rake syntax: den:plugin:install group_id=maestro artifact_id=sample_plugin"
       end
@@ -49,7 +40,7 @@ namespace :maestro do
 
     desc "install plugins"
     task :install do
-      t = Maestro::Tasks.new
+      t = Maestro::Tasks.new(config_file)
       plugins_offline_task(t)
       plugins_install_task(t, force)
     end
@@ -66,7 +57,7 @@ end
 
 def plugins_install_task(t, force = false)
   t.plugins.each do |p|
-    plugin_install_tasks(p, force)
+    plugin_install_task(p, force)
   end
 end
 
