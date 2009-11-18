@@ -12,8 +12,8 @@ module Maestro
         @group_id = a[:group_id]
         @artifact_id = a[:artifact_id]
         @version = a[:version]
-        @type = a[:type]
-        @repo_type = a[:repo_type]
+        @type = a[:type] || "gem"
+        @repo_type = a[:repo_type] || "maestro-release"
       end
     end
 
