@@ -36,7 +36,7 @@ namespace :maestro do
   end
 
   namespace :plugins do
-    config_file = ENV['config-file']
+    config_file = ENV['config']
 
     desc "install plugins"
     task :install do
