@@ -24,10 +24,15 @@ namespace :maestro do
     desc "install plugin"
     task :install do
       if group_id and artifact_id
-      task = Maestro::Tasks.new
-      artifact = Maestro::Artifact.new({:group_id => group_id, :artifact_id => artifact_id, :version => version})
-      repo = task.repositories.first
-      puts repo.get_metadata(artifact)
+        task = Maestro::Tasks.new
+        artifact = Maestro::Artifact.new({:group_id => group_id, :artifact_id => artifact_id, :version => version})
+        repo = task.repositories.first
+        url = repo.download_url(artifact)
+        if url
+          puts url
+        else
+          puts "Cannot find the artifact to any of the repositories, please check group_id or artifact_id"
+        end
       else
         puts "rake syntax: den:plugin:install group_id=maestro artifact_id=sample_plugin"
       end

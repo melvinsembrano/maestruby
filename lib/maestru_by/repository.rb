@@ -22,7 +22,16 @@ module Maestro
     end
 
     def download_url(plugin)
-      "#{@url}#{"/" unless @url.ends_with?("/")}repository/#{plugin.repo_type.pluralize}/#{plugin.group_id}/#{plugin.artifact_id}/#{plugin.version}/#{plugin.artifact_id}-#{plugin.version}.#{plugin.type}"
+      if plugin.version
+        "#{@url}#{"/" unless @url.ends_with?("/")}repository/#{plugin.repo_type.pluralize}/#{plugin.group_id}/#{plugin.artifact_id}/#{plugin.version}/#{plugin.artifact_id}-#{plugin.version}.#{plugin.type}"
+      else
+        #get the latest version
+        md = get_metadata(plugin)
+        if md
+          plugin.version = md["metadata"]["versioning"]["latest"]
+          download_url(plugin)
+        end
+      end
     end
 
     def get_metadata(plugin)
