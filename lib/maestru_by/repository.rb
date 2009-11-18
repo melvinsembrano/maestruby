@@ -33,7 +33,12 @@ module Maestro
       res = Net::HTTP.start(uri.host, uri.port) {|http|
         http.request(req)
       }
-      return res.body
+      case res
+      when Net::HTTPSuccess, Net::HTTPRedirection
+        return Hash.from_xml(res.body)
+      else
+        nil
+      end
     end
 
   end
