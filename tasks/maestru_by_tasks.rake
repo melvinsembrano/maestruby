@@ -26,6 +26,10 @@ namespace :maestro do
       if group_id and artifact_id
         task = Maestro::Tasks.new
         artifact = Maestro::Artifact.new({:group_id => group_id, :artifact_id => artifact_id, :version => version})
+        plugin_offline_task(task, artifact)
+        plugin_install_task(artifact)
+        puts "DONE"
+=begin
         repo = task.repositories.first
         url = repo.download_url(artifact)
         if url
@@ -33,6 +37,7 @@ namespace :maestro do
         else
           puts "Cannot find the artifact to any of the repositories, please check group_id or artifact_id"
         end
+=end
       else
         puts "rake syntax: den:plugin:install group_id=maestro artifact_id=sample_plugin"
       end
@@ -61,6 +66,11 @@ end
 
 def plugins_install_task(t, force = false)
   t.plugins.each do |p|
+    plugin_install_tasks(p, force)
+  end
+end
+
+def plugin_install_task(p, force = false)
     puts "installing #{p.artifact_id} plugin to application..."
     if force || !File.directory?(p.app_plugin_folder)
       FileUtils.rm_rf(p.app_plugin_folder) if File.exist?(p.app_plugin_folder)
@@ -72,28 +82,32 @@ def plugins_install_task(t, force = false)
       end
       FileUtils.cp_r(p.extract_folder, p.app_plugin_folder)
     end
-    
-  end
 end
 
 def plugins_offline_task(t)
   t.plugins.each do |p|
-    plugin_offline_task(p)
+    plugin_offline_task(t,p)
   end
   Dir.chdir(RAILS_ROOT)
 end
 
 
-def plugin_offline_task(p)
+def plugin_offline_task(t, p)
   puts "bringing #{p.artifact_id} to offline.."
   unless File.exist?(p.local_path)
     FileUtils.mkdir_p(p.local_folder) unless File.exist?(p.local_folder)
     puts "downloading #{p.artifact_id}..."
     Dir.chdir(p.local_folder)
-    res = `#{t.download_command(p)}`
+    cmd = t.download_command(p)
+    unless cmd
+      puts "ERROR: cannot download #{p.artifact_id} from any of the repositories."
+      abort
+    end
+    res = `#{cmd}`
     abort_if_system_error(res)
   end
   Dir.chdir(RAILS_ROOT)
+  return p
 end
 
 

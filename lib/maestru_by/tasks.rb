@@ -23,8 +23,10 @@ module Maestro
         :url => repo.download_url(plugin),
         :filename => plugin.filename,
       }
-      t = ERB.new(@downloader[:command])
-      t.result(param.send(:binding))
+      if param[:url]
+        t = ERB.new(@downloader[:command])
+        t.result(param.send(:binding))
+      end
     end
     
 
