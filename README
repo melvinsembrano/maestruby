@@ -7,7 +7,10 @@ Introduction goes here.
 Example
 =======
 
-Example goes here.
+	rake maestro:setup                                           # Setup Maestro Ruby environment
+	rake maestro:plugin:install group_id=ams artifact_id=plugin0 # install plugin
+	rake maestro:plugins:install                                 # install plugins setup in a config file
 
 
-Copyright (c) 2009 [name of plugin creator], released under the MIT license
+
+Copyright (c) 2009 Melvin Sembrano, released under the MIT license
