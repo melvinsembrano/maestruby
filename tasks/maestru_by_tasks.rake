@@ -94,8 +94,10 @@ def plugin_offline_task(t, p)
       puts "ERROR: cannot download #{p.artifact_id} from any of the repositories."
       abort
     end
-    res = `#{cmd}`
-    abort_if_system_error(res)
+    unless File.exist?(p.local_path)
+      res = `#{cmd}`
+      abort_if_system_error(res)
+    end
   end
   Dir.chdir(RAILS_ROOT)
   return p
