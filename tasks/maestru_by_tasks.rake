@@ -21,11 +21,12 @@ namespace :maestro do
     group_id = ENV["group_id"] || ENV["g"]
     artifact_id = ENV["artifact_id"] || ENV["a"]
     version = ENV["version"] || ENV["v"]
+    repo_type = ENV["repo_type"] || ENV["r"]
     desc "install plugin"
     task :install do
       if group_id and artifact_id
         task = Maestro::Tasks.new
-        artifact = Maestro::Artifact.new({:group_id => group_id, :artifact_id => artifact_id, :version => version})
+        artifact = Maestro::Artifact.new({:group_id => group_id, :artifact_id => artifact_id, :version => version, :repo_type => repo_type})
         plugin_offline_task(task, artifact)
         plugin_install_task(artifact)
         puts "DONE"
